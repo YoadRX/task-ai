@@ -4,18 +4,19 @@ import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatOpenAI } from '@langchain/openai';
 import * as dotenv from 'dotenv';
+import { LLMType } from '../types/LLM.t';
 
 dotenv.config();
 dotenv.configDotenv();
 
 @Injectable()
 export class LlmTalkerService {
-  private readonly chatOpenAI: ChatOpenAI;
+  private readonly openAI: ChatOpenAI;
   private readonly logger = new Logger();
   private readonly googleAI: ChatGoogleGenerativeAI;
 
   constructor() {
-    this.chatOpenAI = new ChatOpenAI({
+    this.openAI = new ChatOpenAI({
       apiKey: process.env.OPENAI_API_KEY,
       modelName: 'gpt-4o-mini',
       temperature: 0.8,
@@ -30,24 +31,28 @@ export class LlmTalkerService {
    * @param request
    * @returns "A response"
    */
-  async generateGPTQuestions(
-    request: string,
-  ): Promise<MessageContent | undefined> {
+  async generateGPTQuestions({
+    llmTalker,
+    message,
+    model,
+    systemPrompt,
+  }: LLMType): Promise<MessageContent | undefined> {
     try {
+      if (model) {
+        this[llmTalker].model = model;
+        this[llmTalker].modelName = model;
+      }
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
-        'Be helpful and kind Assistant',
+        systemPrompt || 'Be helpful Assistant',
       );
-
       const formattedMessages = await chatPromptTemplate.formatMessages({});
 
-      const llmTalker = this.chatOpenAI;
-
-      const response = await llmTalker.invoke([
+      const response = await this[llmTalker].invoke([
         {
           role: 'system',
           content: formattedMessages[0].content as string,
         },
-        { role: 'user', content: request },
+        { role: 'user', content: message },
       ]);
 
       return response.content;

@@ -1,12 +1,16 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { LlmTalkerService } from './llm-talker/llm-talker.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly llmTalkerService: LlmTalkerService) {}
 
   @Get()
   getHello() {
-    return this.appService.generateGPTQuestions();
+    return this.llmTalkerService.generateGPTQuestions({
+      llmTalker: 'openAI',
+      message: 'What is the capital of France',
+      model: 'gpt-4o-mini',
+    });
   }
 }
