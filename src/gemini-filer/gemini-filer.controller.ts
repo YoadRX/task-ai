@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Post,
   UploadedFile,
@@ -19,7 +20,7 @@ export class GeminiFilerController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: './audio',
-        filename: (req, file, callback) => {
+        filename: (_, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9);
           const fileExt = extname(file.originalname);
@@ -27,7 +28,7 @@ export class GeminiFilerController {
         },
       }),
       limits: { fileSize: 10 * 1024 * 1024 },
-      fileFilter: (req, file, callback) => {
+      fileFilter: (_, file, callback) => {
         if (!file.mimetype.startsWith('audio/')) {
           return callback(new Error('Only audio files are allowed!'), false);
         }
@@ -35,7 +36,10 @@ export class GeminiFilerController {
       },
     }),
   )
-  async uploadFile(@UploadedFile() file: Multer): Promise<string> {
+  async uploadFile(
+    @UploadedFile() file: Multer,
+    @Body() { prompt },
+  ): Promise<string> {
     if (!file) {
       throw new Error('No file uploaded.');
     }
@@ -43,6 +47,6 @@ export class GeminiFilerController {
     console.log(`File uploaded: ${file.originalname}`);
 
     const uri = await this.geminiFilerService.fileUploaderAudio(file.path);
-    return this.geminiFilerService.analyzeAudio(uri);
+    return this.geminiFilerService.analyzeAudio({ prompt, fileUri: uri });
   }
 }
