@@ -28,10 +28,13 @@ export class LlmTalkerService {
   }
 
   /**
-   * @param request
+   * @param llmTalker - The LLM type to use
+   * @param message - The message to send to the LLM
+   * @param model - The model to use
+   * @param systemPrompt - The system prompt to use
    * @returns "A response"
    */
-  async generateGPTQuestions({
+  async generateLLMRequest({
     llmTalker,
     message,
     model,
@@ -42,9 +45,11 @@ export class LlmTalkerService {
         this[llmTalker].model = model;
         this[llmTalker].modelName = model;
       }
+
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
         systemPrompt || 'Be helpful Assistant',
       );
+
       const formattedMessages = await chatPromptTemplate.formatMessages({});
 
       const response = await this[llmTalker].invoke([
