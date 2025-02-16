@@ -42,14 +42,16 @@ export class GeminiFilerService {
   async analyzeAudio({
     fileUri,
     prompt,
+    modelName = 'gemini-2.0-flash',
   }: {
     fileUri: string;
     prompt: string;
+    modelName?: string;
   }): Promise<string> {
     console.log('prompt :', prompt);
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
+      model: modelName,
     });
 
     const result = await model.generateContent([
