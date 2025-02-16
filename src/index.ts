@@ -1,3 +1,3 @@
 // index.ts
-export * from './app.module';
-export * from './app.service';
+export * from './llm-talker/llm-talker.module';
+export * from './llm-talker/llm-talker.service';
