@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { exec } from 'child_process';
-import { FileType } from './uvr.controller';
+import { FileType } from '../types/FileType.t';
 
 @Injectable()
 export class UvrService {
