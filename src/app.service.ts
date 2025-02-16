@@ -16,7 +16,10 @@ export class AppService {
       modelName: 'gpt-4o-mini',
       temperature: 0.8,
     });
-    this.googleAI = new ChatGoogleGenerativeAI({ model: 'gemini-1.5-pro' });
+    this.googleAI = new ChatGoogleGenerativeAI({
+      model: 'gemini-1.5-pro',
+      apiKey: process.env.GOOGLE_API_KEY,
+    });
   }
 
   async generateGPTQuestions(): Promise<MessageContent | undefined> {
