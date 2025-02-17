@@ -8,30 +8,31 @@ Installation
 
 Ensure you have the necessary dependencies installed:
 
-` npm install @nestjs/common @langchain/core @langchain google-genai @langchain/openai dotenv`
+` npm install task-ai` OR
+` pnpm install task-ai`
 
-Environment Variables
+## Environment Variables
 
 Set up your .env file with the following API keys:
 
-`OPENAI_API_KEY=your_openai_api_key
-GOOGLE_API_KEY=your_google_api_key`
+`OPENAI_API_KEY="your_openai_api_key"`AND
+`GOOGLE_API_KEY="your_google_api_key"`
 
 ## Usage
 
 ### Importing the Service
 
-Inject `LlmTalkerService` into your NestJS providers:
+Inject `LlmTalkerService` into your App Module:
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { LlmTalkerService } from './services/llmTalker.service';
+import { LlmTalkerService } from 'task-ai';
 
 @Module({
   providers: [LlmTalkerService],
   exports: [LlmTalkerService],
 })
-export class LlmModule {}
+export class YourAppModule {}
 ```
 
 Generating an LLM Request
@@ -72,33 +73,27 @@ If an error occurs during the request, it will be logged using NestJS's Logger s
 
 GeminiFilerService is a NestJS injectable service that integrates with Google's Generative AI API for handling audio file uploads and analysis.
 
-## Installation
-
-Ensure you have the necessary dependencies installed:
-
-`npm install @nestjs/common @google/generative-ai dotenv fs`
-
-Environment Variables
+## Environment Variables
 
 Set up your .env file with the following API key:
 
-`GOOGLE_API_KEY=your_google_api_key`
+`GOOGLE_API_KEY="your_google_api_key"`
 
 ### Usage
 
 #### Importing the Service
 
-Inject GeminiFilerService into your NestJS providers:
+Inject GeminiFilerService into your APP Module:
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { GeminiFilerService } from './services/geminiFiler.service';
+import { GeminiFilerService } from 'task-ai';
 
 @Module({
   providers: [GeminiFilerService],
   exports: [GeminiFilerService],
 })
-export class GeminiModule {}
+export class YourAppModule {}
 ```
 
 ### Uploading an Audio File
