@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import {
-  FileMetadataResponse,
+  FileMetadata,
   GoogleAIFileManager,
 } from '@google/generative-ai/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import * as fs from 'fs';
-import { AnalyzeAudio } from '../types/AnalyzeAudio.t';
-import { AnalyzeAudioParams } from '../types/AnalyzeAudioParams.t';
+import { AnalyzeFile as AnalyzeFile } from '../types/AnalyzeFile.t';
+import { AnalyzeFileParams as AnalyzeFileParams } from '../types/AnalyzeFileParams.t';
+import { FileUploaderType } from '../types/FileUploaderType.t';
 
 @Injectable()
 export class GeminiFilerService {
@@ -16,9 +17,10 @@ export class GeminiFilerService {
     this.fileManager = new GoogleAIFileManager(process.env.GOOGLE_API_KEY);
   }
 
-  async fileUploaderAudio(
+  async fileUploader(
     filePath: string,
-  ): Promise<{ fileUri: string; fileOptions: FileMetadataResponse }> {
+    fileOptions: FileMetadata,
+  ): Promise<FileUploaderType> {
     if (!filePath || typeof filePath !== 'string') {
       throw new Error('Invalid file path.');
     }
@@ -31,8 +33,8 @@ export class GeminiFilerService {
 
     try {
       const uploadResult = await this.fileManager.uploadFile(filePath, {
-        mimeType: 'audio/mp3',
-        displayName: 'Uploaded Audio',
+        mimeType: fileOptions.mimeType,
+        displayName: fileOptions.displayName,
       });
 
       console.log(`Upload successful: ${uploadResult.file.uri}`);
@@ -49,12 +51,13 @@ export class GeminiFilerService {
     }
   }
 
-  async analyzeAudio({
+  async analyzeFile({
     fileUri,
     prompt,
     modelName = 'gemini-2.0-flash',
     options,
-  }: AnalyzeAudioParams): Promise<AnalyzeAudio> {
+    mimeType,
+  }: AnalyzeFileParams): Promise<AnalyzeFile> {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({
       ...options,
@@ -66,7 +69,7 @@ export class GeminiFilerService {
       {
         fileData: {
           fileUri,
-          mimeType: 'audio/mp3',
+          mimeType,
         },
       },
     ]);
@@ -74,6 +77,6 @@ export class GeminiFilerService {
     return {
       text: result.response?.text?.() || 'No response from AI model.',
       options: result.response,
-    } as AnalyzeAudio;
+    } as AnalyzeFile;
   }
 }

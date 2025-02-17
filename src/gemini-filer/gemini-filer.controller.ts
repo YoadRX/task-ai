@@ -10,7 +10,7 @@ import { GeminiFilerService } from './gemini-filer.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Multer } from 'multer';
-import { AnalyzeAudio } from '../types/AnalyzeAudio.t';
+import { AnalyzeFile } from '../types/AnalyzeFile.t';
 
 @Controller('gemini-filer')
 export class GeminiFilerController {
@@ -40,16 +40,25 @@ export class GeminiFilerController {
   async uploadFile(
     @UploadedFile() file: Multer,
     @Body() { prompt },
-  ): Promise<AnalyzeAudio> {
+  ): Promise<AnalyzeFile> {
     if (!file) {
       throw new Error('No file uploaded.');
     }
 
     console.log(`File uploaded: ${file.originalname}`);
 
-    const { fileUri, fileOptions } =
-      await this.geminiFilerService.fileUploaderAudio(file.path);
+    const { fileUri, fileOptions } = await this.geminiFilerService.fileUploader(
+      file.path,
+      {
+        displayName: file.originalname,
+        mimeType: file.mimetype,
+      },
+    );
     console.log('fileOptions :', fileOptions);
-    return this.geminiFilerService.analyzeAudio({ prompt, fileUri });
+    return this.geminiFilerService.analyzeFile({
+      prompt,
+      fileUri,
+      mimeType: file.mimetype,
+    });
   }
 }

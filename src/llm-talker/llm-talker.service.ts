@@ -6,7 +6,6 @@ import { ChatOpenAI } from '@langchain/openai';
 import * as dotenv from 'dotenv';
 import { LLMType } from '../types/LLM.t';
 import { GenerateLLMResponse } from '../types/GenerateLLMResponse.t';
-
 dotenv.config();
 dotenv.configDotenv();
 
