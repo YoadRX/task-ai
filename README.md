@@ -40,7 +40,7 @@ Generating an LLM Request
 Use the generateLLMRequest method to send a message to an LLM model:
 
 ```typescript
-import { LlmTalkerService } from './services/llmTalker.service';
+import { LlmTalkerService } from 'task-ai';
 
 constructor(private readonly llmTalkerService: LlmTalkerService) {}
 
@@ -101,7 +101,7 @@ export class YourAppModule {}
 Use the `fileUploaderAudio` method to upload an audio file to Google AI:
 
 ```typescript
-import { GeminiFilerService } from './services/geminiFiler.service';
+import { GeminiFilerService } from 'task-ai';
 
 constructor(private readonly geminiFilerService: GeminiFilerService) {}
 
