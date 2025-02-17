@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { GoogleAIFileManager } from '@google/generative-ai/server';
+import {
+  FileMetadataResponse,
+  GoogleAIFileManager,
+} from '@google/generative-ai/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import * as fs from 'fs';
+import { AnalyzeAudio } from '../types/AnalyzeAudio.t';
 
 @Injectable()
 export class GeminiFilerService {
@@ -11,7 +15,9 @@ export class GeminiFilerService {
     this.fileManager = new GoogleAIFileManager(process.env.GOOGLE_API_KEY);
   }
 
-  async fileUploaderAudio(filePath: string): Promise<string> {
+  async fileUploaderAudio(
+    filePath: string,
+  ): Promise<{ fileUri: string; fileOptions: FileMetadataResponse }> {
     if (!filePath || typeof filePath !== 'string') {
       throw new Error('Invalid file path.');
     }
@@ -30,7 +36,10 @@ export class GeminiFilerService {
 
       console.log(`Upload successful: ${uploadResult.file.uri}`);
 
-      return uploadResult.file.uri;
+      return {
+        fileUri: uploadResult.file.uri,
+        fileOptions: uploadResult.file,
+      };
     } catch (error) {
       console.error('Error uploading file:', error);
       throw new Error(
@@ -47,13 +56,13 @@ export class GeminiFilerService {
     fileUri: string;
     prompt: string;
     modelName?: string;
-  }): Promise<string> {
-    console.log('prompt :', prompt);
+  }): Promise<AnalyzeAudio> {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({
       model: modelName,
     });
-
+    console.log('modelName :', modelName);
+    console.log('Loading...');
     const result = await model.generateContent([
       prompt,
       {
@@ -64,6 +73,9 @@ export class GeminiFilerService {
       },
     ]);
 
-    return result.response?.text?.() || 'No response from AI model.';
+    return {
+      text: result.response?.text?.() || 'No response from AI model.',
+      options: result.response,
+    };
   }
 }
