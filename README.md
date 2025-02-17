@@ -8,8 +8,8 @@ Installation
 
 Ensure you have the necessary dependencies installed:
 
-` npm install task-ai` OR
-` pnpm install task-ai`
+`npm install task-ai` OR
+`pnpm install task-ai`
 
 ## Environment Variables
 
