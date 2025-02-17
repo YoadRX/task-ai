@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AIMessageChunk, type MessageContent } from '@langchain/core/messages';
+
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatOpenAI } from '@langchain/openai';
 import * as dotenv from 'dotenv';
 import { LLMType } from '../types/LLM.t';
+import { GenerateLLMResponse } from '../types/GenerateLLMResponse.t';
 
 dotenv.config();
 dotenv.configDotenv();
@@ -39,10 +40,7 @@ export class LlmTalkerService {
     message,
     model,
     systemPrompt,
-  }: LLMType): Promise<{
-    content: MessageContent | undefined;
-    options: Omit<AIMessageChunk, 'content'>;
-  }> {
+  }: LLMType): Promise<GenerateLLMResponse> {
     try {
       if (model) {
         this[llmTalker].model = model;
@@ -63,7 +61,15 @@ export class LlmTalkerService {
         { role: 'user', content: message },
       ]);
 
-      return { options: response, content: response.content };
+      return {
+        options: response,
+        content: response.content,
+        tokensUsage: {
+          input: response.usage_metadata.input_tokens,
+          output: response.usage_metadata.output_tokens,
+          total: response.usage_metadata.total_tokens,
+        },
+      } as GenerateLLMResponse;
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.logger.error(error.message);
