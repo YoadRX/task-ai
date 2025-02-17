@@ -44,13 +44,13 @@ import { LlmTalkerService } from './services/llmTalker.service';
 constructor(private readonly llmTalkerService: LlmTalkerService) {}
 
 async function sendMessage() {
-const response = await this.llmTalkerService.generateLLMRequest({
-llmTalker: 'openAI', // or 'googleAI'
-message: 'Hello, how are you?',
-model: 'gpt-4o-mini', // Optional
-systemPrompt: 'You are a helpful assistant.',
-});
-console.log(response);
+    const response = await this.llmTalkerService.generateLLMRequest({
+    llmTalker: 'openAI', // or 'googleAI'
+    message: 'Hello, how are you?',
+    model: 'gpt-4o-mini', // Optional
+    systemPrompt: 'You are a helpful assistant.',
+    });
+  console.log(response);
 }
 ```
 
@@ -68,7 +68,7 @@ Error Handling
 
 If an error occurs during the request, it will be logged using NestJS's Logger service and re-thrown.
 
-# GeminiFilerService
+## GeminiFilerService
 
 GeminiFilerService is a NestJS injectable service that integrates with Google's Generative AI API for handling audio file uploads and analysis.
 
@@ -111,8 +111,8 @@ import { GeminiFilerService } from './services/geminiFiler.service';
 constructor(private readonly geminiFilerService: GeminiFilerService) {}
 
 async function uploadAudio() {
-const fileUri = await this.geminiFilerService.fileUploaderAudio('path/to/audio.mp3');
-console.log('Uploaded file URI:', fileUri);
+  const fileUri = await this.geminiFilerService.fileUploaderAudio('path/to/audio.mp3');
+  console.log('Uploaded file URI:', fileUri);
 }
 ```
 
