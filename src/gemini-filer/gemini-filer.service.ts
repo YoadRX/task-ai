@@ -6,6 +6,7 @@ import {
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import * as fs from 'fs';
 import { AnalyzeAudio } from '../types/AnalyzeAudio.t';
+import { AnalyzeAudioParams } from '../types/AnalyzeAudioParams.t';
 
 @Injectable()
 export class GeminiFilerService {
@@ -52,17 +53,14 @@ export class GeminiFilerService {
     fileUri,
     prompt,
     modelName = 'gemini-2.0-flash',
-  }: {
-    fileUri: string;
-    prompt: string;
-    modelName?: string;
-  }): Promise<AnalyzeAudio> {
+    options,
+  }: AnalyzeAudioParams): Promise<AnalyzeAudio> {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({
+      ...options,
       model: modelName,
     });
     console.log('modelName :', modelName);
-    console.log('Loading...');
     const result = await model.generateContent([
       prompt,
       {
@@ -76,6 +74,6 @@ export class GeminiFilerService {
     return {
       text: result.response?.text?.() || 'No response from AI model.',
       options: result.response,
-    };
+    } as AnalyzeAudio;
   }
 }

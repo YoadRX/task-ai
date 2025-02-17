@@ -7,3 +7,4 @@ export * from './types/LLM.t';
 export * from './types/FileType.t';
 export * from './types/GenerateLLMResponse.t';
 export * from './types/AnalyzeAudio.t';
+export * from './types/AnalyzeAudioParams.t';

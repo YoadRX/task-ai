@@ -22,15 +22,14 @@ Set up your .env file with the following API keys:
 
 ### Importing the Service
 
-Inject `LlmTalkerService` into your App Module:
+Inject `LlmTalkerModule` into your App Module:
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { LlmTalkerService } from 'task-ai';
+import { LlmTalkerModule } from 'task-ai';
 
 @Module({
-  providers: [LlmTalkerService],
-  exports: [LlmTalkerService],
+  imports: [LlmTalkerModule],
 })
 export class YourAppModule {}
 ```
@@ -87,11 +86,10 @@ Inject GeminiFilerService into your APP Module:
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { GeminiFilerService } from 'task-ai';
+import { GeminiFilerModule } from 'task-ai';
 
 @Module({
-  providers: [GeminiFilerService],
-  exports: [GeminiFilerService],
+  imports: [GeminiFilerModule],
 })
 export class YourAppModule {}
 ```
