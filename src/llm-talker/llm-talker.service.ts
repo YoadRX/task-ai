@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { type MessageContent } from '@langchain/core/messages';
+import { AIMessageChunk, type MessageContent } from '@langchain/core/messages';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatOpenAI } from '@langchain/openai';
@@ -39,7 +39,10 @@ export class LlmTalkerService {
     message,
     model,
     systemPrompt,
-  }: LLMType): Promise<MessageContent | undefined> {
+  }: LLMType): Promise<{
+    content: MessageContent | undefined;
+    options: Omit<AIMessageChunk, 'content'>;
+  }> {
     try {
       if (model) {
         this[llmTalker].model = model;
@@ -60,7 +63,7 @@ export class LlmTalkerService {
         { role: 'user', content: message },
       ]);
 
-      return response.content;
+      return { options: response, content: response.content };
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.logger.error(error.message);
