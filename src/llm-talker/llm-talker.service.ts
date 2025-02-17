@@ -33,7 +33,13 @@ export class LlmTalkerService {
    * @param message - The message to send to the LLM
    * @param model - The model to use
    * @param systemPrompt - The system prompt to use
-   * @returns "A response"
+   * @returns Returns { `**content**` - The message content.
+   *   `**options**` - The options from the LLM response.
+   *   `**tokensUsage**` - Token usage information.
+   *   `**input**` - Number of input tokens.
+   *   `**output**` - Number of output tokens.
+   *   `**total**` - Total token usage.
+   *     }
    */
   async generateLLMRequest({
     llmTalker,
