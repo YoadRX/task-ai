@@ -48,11 +48,21 @@ export class LlmTalkerService {
    *   `**total**` - Total token usage.
    *     }
    */
+
+  private removeJsonCodeBlock = (text: string): unknown => {
+    // Regular expression to match the JSON code block pattern.
+    // The 's' flag allows the dot (.) to match newline characters.
+    const regex = /```json\s*\n([\s\S]*?)\n\s*```/g; // Modified regex
+
+    // Replace the matched pattern with the captured group (the JSON content).
+    return JSON.parse(text.replace(regex, '$1'));
+  };
   async generateLLMRequest({
     llmTalker,
     message,
     model,
     systemPrompt,
+    returnType,
   }: LLMType): Promise<GenerateLLMResponse> {
     try {
       if (model) {
@@ -76,7 +86,10 @@ export class LlmTalkerService {
 
       return {
         options: response,
-        content: response.content,
+        content:
+          returnType === 'Json'
+            ? this.removeJsonCodeBlock(response.content as string)
+            : response.content,
         tokensUsage: {
           input: response.usage_metadata.input_tokens,
           output: response.usage_metadata.output_tokens,

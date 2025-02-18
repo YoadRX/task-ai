@@ -4,6 +4,7 @@ export interface LLMType {
   model: string;
   temperature?: number;
   systemPrompt?: string;
+  returnType?: 'Json' | 'string';
 }
 export enum LLMTalker {
   googleAI = 'googleAI',
