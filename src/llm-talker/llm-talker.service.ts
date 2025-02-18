@@ -35,6 +35,15 @@ export class LlmTalkerService {
     }
   }
 
+  private removeJsonCodeBlock = (text: string): unknown => {
+    // Regular expression to match the JSON code block pattern.
+    // The 's' flag allows the dot (.) to match newline characters.
+    const regex = /```json\s*\n([\s\S]*?)\n\s*```/g; // Modified regex
+
+    // Replace the matched pattern with the captured group (the JSON content).
+    return JSON.parse(text.replace(regex, '$1'));
+  };
+
   /**
    * @param llmTalker - The LLM type to use
    * @param message - The message to send to the LLM
@@ -48,15 +57,6 @@ export class LlmTalkerService {
    *   `**total**` - Total token usage.
    *     }
    */
-
-  private removeJsonCodeBlock = (text: string): unknown => {
-    // Regular expression to match the JSON code block pattern.
-    // The 's' flag allows the dot (.) to match newline characters.
-    const regex = /```json\s*\n([\s\S]*?)\n\s*```/g; // Modified regex
-
-    // Replace the matched pattern with the captured group (the JSON content).
-    return JSON.parse(text.replace(regex, '$1'));
-  };
   async generateLLMRequest({
     llmTalker,
     message,
