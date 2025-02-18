@@ -89,7 +89,7 @@ export class LlmTalkerService {
         content:
           returnType === 'Json'
             ? this.removeJsonCodeBlock(response.content as string)
-            : response.content,
+            : (response.content as string),
         tokensUsage: {
           input: response.usage_metadata.input_tokens,
           output: response.usage_metadata.output_tokens,
