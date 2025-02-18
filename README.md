@@ -20,7 +20,7 @@ Set up your .env file with the following API keys:
 
 ## Usage
 
-### Importing the Service
+### Importing the Service/Module
 
 Inject `LlmTalkerModule` into your App Module:
 
