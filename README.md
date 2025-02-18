@@ -96,28 +96,38 @@ export class YourAppModule {}
 
 ### Uploading an Audio File
 
-Use the `fileUploaderAudio` method to upload an audio file to Google AI:
+Use the `fileUploaderFile` method to upload an File file to Google AI:
 
 ```typescript
 import { GeminiFilerService } from 'task-ai';
 
 constructor(private readonly geminiFilerService: GeminiFilerService) {}
 
-async function uploadAudio() {
-  const fileUri = await this.geminiFilerService.fileUploaderAudio('path/to/audio.mp3');
+async function uploadFile() {
+  const {fileUri} = await this.geminiFilerService.fileUploaderFile({
+    filePath: "[YOUR_FILE_PATH]",
+    fileOptions: {
+      name?: string;
+      displayName?: string;
+      mimeType: string;
+    }
+  });
   console.log('Uploaded file URI:', fileUri);
 }
 ```
 
 ### Analyzing an Audio File
 
-Use the `analyzeAudio` method to analyze an uploaded audio file:
+Use the `analyzeFile` method to analyze an uploaded file:
 
 ```typescript
-async function analyzeUploadedAudio() {
-  const response = await this.geminiFilerService.analyzeAudio({
+async function analyzeUploadedFile() {
+  const response = await this.geminiFilerService.analyzeFile({
     fileUri: 'uploaded_file_uri',
     prompt: 'Transcribe this audio.',
+    // Can be "audio/mp3" or
+    // "audio/wav" or a png file
+    mimeType: '[mime_type]',
   });
   console.log('AI Response:', response);
 }
@@ -130,13 +140,28 @@ Returns the uploaded file's URI.
 
 - filePath: The local path of the audio file to be uploaded.
 
-- analyzeAudio({ fileUri, prompt, modelName }): Promise<string>
+- analyzeAudio({ fileUri, prompt, modelName }): Promise< string >
 
 - fileUri: The URI of the uploaded audio file.
 
 - prompt: The instruction for AI processing.
 
 - modelName (optional): The AI model to use (default: 'gemini-2.0-flash').
+
+- options (optional): < ModelParams >
+
+- mimeType: The file mime type
+
+### Interface: options
+
+```typescript
+options?: {
+  tools?: Tool[];
+  toolConfig?: ToolConfig;
+  systemInstruction?: string | Part | Content;
+  cachedContent?: CachedContent;
+}
+```
 
 Returns AI-generated analysis or transcription of the audio.
 
