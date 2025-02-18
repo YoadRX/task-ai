@@ -49,6 +49,7 @@ async function sendMessage() {
       message: 'Hello, how are you?',
       model: 'gpt-4o-mini', // Optional
       systemPrompt: 'You are a helpful assistant.',
+
     });
   console.log(response);
 }
@@ -63,6 +64,8 @@ Parameters
 - model (string, optional): Specifies the model version.
 
 * systemPrompt (string, optional): A system message to guide the response.
+
+* returnType ("Json" | "string", optional): The return type
 
 Error Handling
 
