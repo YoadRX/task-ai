@@ -71,7 +71,9 @@ export class LlmTalkerService {
       }
 
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
-        systemPrompt || 'Be helpful Assistant',
+        (systemPrompt + returnType === 'Json' &&
+          'Return All as A Valid JSON') ||
+          'Be helpful Assistant',
       );
 
       const formattedMessages = await chatPromptTemplate.formatMessages({});
