@@ -11,20 +11,28 @@ dotenv.configDotenv();
 
 @Injectable()
 export class LlmTalkerService {
-  private readonly openAI: ChatOpenAI;
+  private openAI?: ChatOpenAI;
+  private googleAI?: ChatGoogleGenerativeAI;
   private readonly logger = new Logger();
-  private readonly googleAI: ChatGoogleGenerativeAI;
 
   constructor() {
-    this.openAI = new ChatOpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      modelName: 'gpt-4o-mini',
-      temperature: 0.8,
-    });
-    this.googleAI = new ChatGoogleGenerativeAI({
-      model: 'gemini-1.5-pro',
-      apiKey: process.env.GOOGLE_API_KEY,
-    });
+    const openAIApiKey = process.env.OPENAI_API_KEY;
+    const googleApiKey = process.env.GOOGLE_API_KEY;
+
+    if (openAIApiKey) {
+      this.openAI = new ChatOpenAI({
+        apiKey: openAIApiKey,
+        modelName: 'gpt-4o-mini',
+        temperature: 0.8,
+      });
+    }
+
+    if (googleApiKey) {
+      this.googleAI = new ChatGoogleGenerativeAI({
+        model: 'gemini-1.5-pro',
+        apiKey: googleApiKey,
+      });
+    }
   }
 
   /**

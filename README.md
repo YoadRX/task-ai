@@ -45,10 +45,10 @@ constructor(private readonly llmTalkerService: LlmTalkerService) {}
 
 async function sendMessage() {
     const response = await this.llmTalkerService.generateLLMRequest({
-    llmTalker: 'openAI', // or 'googleAI'
-    message: 'Hello, how are you?',
-    model: 'gpt-4o-mini', // Optional
-    systemPrompt: 'You are a helpful assistant.',
+      llmTalker: 'openAI', // or 'googleAI'
+      message: 'Hello, how are you?',
+      model: 'gpt-4o-mini', // Optional
+      systemPrompt: 'You are a helpful assistant.',
     });
   console.log(response);
 }
