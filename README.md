@@ -67,6 +67,10 @@ Parameters
 
 * returnType ("Json" | "string", optional): The return type
 
+* sysPromptValues: {
+  anyData // that in the sysPrompt
+  }
+
 Error Handling
 
 If an error occurs during the request, it will be logged using NestJS's Logger service and re-thrown.
