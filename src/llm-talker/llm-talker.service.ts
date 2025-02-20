@@ -72,7 +72,7 @@ export class LlmTalkerService {
     interfaceReturn,
   }: LLMTypeDTO & {
     sysPromptValues?: unknown;
-    interfaceReturn?: object;
+    interfaceReturn?: object | string;
   }): Promise<GenerateLLMResponse> {
     try {
       if (model) {

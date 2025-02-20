@@ -73,9 +73,10 @@ Parameters
   }
 
   - **interfaceReturn**:
+    **string/object**
 
   ```typescript
-    interfaceReturn: { // Write this as an object and not actually an interface
+    interfaceReturn: { // Write this as object that is  not actually an interface OR as A string
       values: [{ value: 'string' }],
       normalValue: 'string',
       value: subValue: { something: 'string' },
