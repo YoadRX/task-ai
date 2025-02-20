@@ -6,6 +6,7 @@ import { ChatOpenAI } from '@langchain/openai';
 import * as dotenv from 'dotenv';
 import { GenerateLLMResponse } from '../types/GenerateLLMResponse.t';
 import { LLMTalker, LLMTypeDTO } from '../dto/LLMTalker.dto';
+import { DEFAULT_JSON } from '../types/ReturnType.sysp';
 dotenv.config();
 dotenv.configDotenv();
 
@@ -72,8 +73,7 @@ export class LlmTalkerService {
         }
       }
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
-        (systemPrompt + returnType === 'Json' &&
-          'Return All as A Valid JSON') ||
+        (systemPrompt + returnType === 'Json' && DEFAULT_JSON) ||
           'Be helpful Assistant',
       );
 

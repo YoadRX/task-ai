@@ -15,9 +15,12 @@ export class LlmTalkerController {
       llmTalker,
       message,
       model,
-      returnType: 'string',
+      returnType: 'Json',
+      sysPromptValues: {
+        message,
+      },
       systemPrompt:
-        'You will given an info and return the message formatted as a json',
+        'You will given an info: {message} and return the message formatted as a json',
     });
   }
 }
