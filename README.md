@@ -63,11 +63,11 @@ Parameters
 
 - model (string, optional): Specifies the model version.
 
-* systemPrompt (string, optional): A system message to guide the response.
+- systemPrompt (string, optional): A system message to guide the response.
 
-* returnType ("Json" | "string", optional): The return type
+- returnType ("Json" | "string", optional): The return type
 
-* sysPromptValues: {
+- sysPromptValues: {
   anyData // that in the sysPrompt
   }
 
