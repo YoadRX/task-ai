@@ -50,6 +50,8 @@ export class LlmTalkerService {
    * @param message - The message to send to the LLM
    * @param model - The model to use
    * @param systemPrompt - The system prompt to use
+   * @param returnType - The return type to use
+   * @param sysPromptValues - The system prompt Values/Params
    * @returns Returns { `**content**` - The message content.
    *   `**options**` - The options from the LLM response.
    *   `**tokensUsage**` - Token usage information.
