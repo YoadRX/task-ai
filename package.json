@@ -1,6 +1,6 @@
 {
   "name": "task-ai",
-  "version": "0.0.18",
+  "version": "0.0.21",
   "description": "",
   "private": false,
   "repository": {
@@ -14,6 +14,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
+    "pub": "pnpm build && npm publish --access public",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -68,6 +69,15 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
   },
+  "files": [
+    "**/*.ts",
+    "**/*.t.ts",
+    "src/*.ts",
+    "src/*.ts",
+    "src/*.t.ts",
+    "**/*.dto.ts",
+    "!**/*.test.js"
+  ],
   "jest": {
     "moduleFileExtensions": [
       "js",
