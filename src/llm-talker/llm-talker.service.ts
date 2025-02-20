@@ -4,8 +4,8 @@ import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatOpenAI } from '@langchain/openai';
 import * as dotenv from 'dotenv';
-import { LLMType } from '../types/LLM.t';
 import { GenerateLLMResponse } from '../types/GenerateLLMResponse.t';
+import { LLMTalker, LLMTypeDTO } from '../dto/LLMTalker.dto';
 dotenv.config();
 dotenv.configDotenv();
 
@@ -22,7 +22,7 @@ export class LlmTalkerService {
     if (openAIApiKey) {
       this.openAI = new ChatOpenAI({
         apiKey: openAIApiKey,
-        modelName: 'gpt-4o-mini',
+        model: 'gpt-4o-mini',
         temperature: 0.8,
       });
     }
@@ -63,13 +63,13 @@ export class LlmTalkerService {
     model,
     systemPrompt,
     returnType,
-  }: LLMType): Promise<GenerateLLMResponse> {
+  }: LLMTypeDTO): Promise<GenerateLLMResponse> {
     try {
       if (model) {
-        this[llmTalker].model = model;
-        this[llmTalker].modelName = model;
+        if (llmTalker === LLMTalker.googleAI) {
+          this[llmTalker].model = model;
+        }
       }
-
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
         (systemPrompt + returnType === 'Json' &&
           'Return All as A Valid JSON') ||

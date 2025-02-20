@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { LlmTalkerService } from './llm-talker/llm-talker.service';
+import { LLMTalker } from './dto/LLMTalker.dto';
 
 @Controller()
 export class AppController {
@@ -7,7 +8,7 @@ export class AppController {
   @Get()
   async getHello() {
     const cs = await this.llmTalkerService.generateLLMRequest({
-      llmTalker: 'googleAI',
+      llmTalker: LLMTalker.googleAI,
       message: 'Hello, how are you?',
       model: 'gemini-1.5-flash',
       systemPrompt: 'You are a helpful assistant.',
