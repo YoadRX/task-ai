@@ -1,17 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { LlmTalkerService } from './llm-talker/llm-talker.service';
-import { LLMTalker } from './dto/LLMTalker.dto';
+import { LLMTypeDTO } from './dto/LLMTalker.dto';
 
 @Controller()
 export class AppController {
   constructor(private readonly llmTalkerService: LlmTalkerService) {}
-  @Get()
-  async getHello() {
+  @Post()
+  async getHello(@Body() { llmTalker, message, model }: LLMTypeDTO) {
     const cs = await this.llmTalkerService.generateLLMRequest({
-      llmTalker: LLMTalker.googleAI,
-      message: 'Hello, how are you?',
-      model: 'gemini-1.5-flash',
-      systemPrompt: 'You are a helpful assistant.',
+      llmTalker,
+      message,
+      model,
+      systemPrompt: 'give me the info about this story ',
+      returnType: 'Json',
     });
     return cs;
   }

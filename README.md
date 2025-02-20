@@ -71,9 +71,11 @@ Parameters
   anyData // that in the sysPrompt
   }
 
-Error Handling
+### See LLMTypeDTO
 
-If an error occurs during the request, it will be logged using NestJS's Logger service and re-thrown.
+```typescript
+import { LLMTypeDTO } from 'task-ai';
+```
 
 ## GeminiFilerService
 
