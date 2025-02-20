@@ -63,7 +63,8 @@ export class LlmTalkerService {
     model,
     systemPrompt,
     returnType,
-  }: LLMTypeDTO): Promise<GenerateLLMResponse> {
+    sysPromptValues,
+  }: LLMTypeDTO & { sysPromptValues?: unknown }): Promise<GenerateLLMResponse> {
     try {
       if (model) {
         if (llmTalker === LLMTalker.googleAI) {
@@ -76,7 +77,9 @@ export class LlmTalkerService {
           'Be helpful Assistant',
       );
 
-      const formattedMessages = await chatPromptTemplate.formatMessages({});
+      const formattedMessages = await chatPromptTemplate.formatMessages({
+        sysPromptValues,
+      });
 
       const response = await this[llmTalker].invoke([
         {
