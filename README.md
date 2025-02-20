@@ -66,10 +66,21 @@ Parameters
 - systemPrompt (string, optional): A system message to guide the response.
 
 - returnType ("Json" | "string", optional): The return type
+  The LLM can return a json Object for you data
 
 - sysPromptValues: {
   anyData // that in the sysPrompt
   }
+
+  - **interfaceReturn**:
+
+  ```typescript
+    interfaceReturn: { // Write this as an object and not actually an interface
+      values: [{ value: 'string' }],
+      normalValue: 'string',
+      value: subValue: { something: 'string' },
+    },
+  ```
 
 ### See LLMTypeDTO
 

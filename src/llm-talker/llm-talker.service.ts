@@ -14,6 +14,8 @@ dotenv.configDotenv();
 export class LlmTalkerService {
   private openAI?: ChatOpenAI;
   private googleAI?: ChatGoogleGenerativeAI;
+  private analyzeFile: unknown = {};
+
   private readonly logger = new Logger();
 
   constructor() {
@@ -67,16 +69,30 @@ export class LlmTalkerService {
     systemPrompt,
     returnType,
     sysPromptValues,
-  }: LLMTypeDTO & { sysPromptValues?: unknown }): Promise<GenerateLLMResponse> {
+    interfaceReturn,
+  }: LLMTypeDTO & {
+    sysPromptValues?: unknown;
+    interfaceReturn?: object;
+  }): Promise<GenerateLLMResponse> {
     try {
       if (model) {
         if (llmTalker === LLMTalker.googleAI) {
           this[llmTalker].model = model;
         }
       }
+
+      const followInterface = JSON.stringify(interfaceReturn).replace(
+        /[{}]/g,
+        (match) => (match === '{' ? 'object(' : ')'),
+      );
+
+      const systemPromptMain =
+        returnType === 'Json'
+          ? systemPrompt + DEFAULT_JSON + followInterface
+          : systemPrompt;
+
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
-        (returnType === 'Json' ? systemPrompt + DEFAULT_JSON : systemPrompt) ||
-          'Be helpful Assistant',
+        systemPromptMain || 'Be helpful Assistant',
       );
 
       const formattedMessages = await chatPromptTemplate.formatMessages(
