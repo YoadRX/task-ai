@@ -75,13 +75,13 @@ export class LlmTalkerService {
         }
       }
       const chatPromptTemplate = ChatPromptTemplate.fromTemplate(
-        (systemPrompt + returnType === 'Json' && DEFAULT_JSON) ||
+        (returnType === 'Json' ? systemPrompt + DEFAULT_JSON : systemPrompt) ||
           'Be helpful Assistant',
       );
 
-      const formattedMessages = await chatPromptTemplate.formatMessages({
-        sysPromptValues,
-      });
+      const formattedMessages = await chatPromptTemplate.formatMessages(
+        sysPromptValues as Record<string, string>,
+      );
 
       const response = await this[llmTalker].invoke([
         {
