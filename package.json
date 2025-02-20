@@ -73,7 +73,6 @@
     "**/*.ts",
     "**/*.t.ts",
     "src/*.ts",
-    "src/*.ts",
     "src/*.t.ts",
     "**/*.dto.ts",
     "!**/*.test.js"
